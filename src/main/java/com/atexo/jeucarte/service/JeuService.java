@@ -1,8 +1,10 @@
 package com.atexo.jeucarte.service;
 
-import com.atexo.jeucarte.dtos.CarteJoueur;
+import com.atexo.jeucarte.dtos.CarteJoueurDto;
+import com.atexo.jeucarte.dtos.CarteMapper;
 import com.atexo.jeucarte.model.Carte;
 import com.atexo.jeucarte.model.Couleur;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 public class JeuService implements  JeuServiceInterface {
     private static final int NOMBRE_CARTE_PAR_COULEUR = 12;
     private List<Carte> jeuxDesCartes;
+    private CarteMapper carteMapper = Mappers.getMapper(CarteMapper.class);
 
     public JeuService(){
         jeuxDesCartes = new ArrayList<>();
@@ -24,8 +27,7 @@ public class JeuService implements  JeuServiceInterface {
 
         creerJeuDeCarte ();
         Collections.shuffle (jeuxDesCartes );
-        List<Carte> jeuxCarteADistibuer=jeuxDesCartes.subList(0,10);
-        return  jeuxCarteADistibuer;
+        return  jeuxDesCartes.subList(0,10);
     }
 
     public  List<Carte> trier(List<Carte> jeuxCarteADistibuer) {
@@ -45,11 +47,11 @@ public class JeuService implements  JeuServiceInterface {
         }
     }
 
- public CarteJoueur tirerMainAvecTrie(){
-     CarteJoueur carteJoueur =new CarteJoueur ();
-    List<Carte> mainTirer= tirerMain();
-     carteJoueur.setCarteAleatoire(mainTirer);
-     carteJoueur.setCarteTrier(trier(mainTirer));
-     return carteJoueur;
+ public CarteJoueurDto tirerMainAvecTrie(){
+     CarteJoueurDto carteJoueurDto =new CarteJoueurDto();
+     List<Carte> mainTirer= tirerMain();
+     carteJoueurDto.setCarteAleatoire(carteMapper.map(mainTirer));
+     carteJoueurDto.setCarteTrier(carteMapper.map(mainTirer));
+     return carteJoueurDto;
  }
 }

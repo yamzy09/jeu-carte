@@ -1,6 +1,6 @@
 package com.atexo.jeucarte.service;
 
-import com.atexo.jeucarte.dtos.CarteJoueur;
+import com.atexo.jeucarte.dtos.CarteJoueurDto;
 import com.atexo.jeucarte.model.Carte;
 
 import java.util.List;
@@ -8,5 +8,5 @@ import java.util.List;
 public interface JeuServiceInterface {
     List<Carte> tirerMain();
     List<Carte> trier(List<Carte> jeuxCarteADistibuer);
-    CarteJoueur tirerMainAvecTrie();
+    CarteJoueurDto tirerMainAvecTrie();
 }
