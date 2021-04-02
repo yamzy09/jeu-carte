@@ -1,5 +1,6 @@
 package com.atexo.jeucarte.controller;
 
+import com.atexo.jeucarte.dtos.CarteJoueur;
 import com.atexo.jeucarte.model.Carte;
 import com.atexo.jeucarte.service.JeuServiceInterface;
 import org.slf4j.Logger;
@@ -22,16 +23,20 @@ public class JeuController {
     private static final Logger logger = LoggerFactory.getLogger(JeuController.class);
     private static final String ENTRER_TIRER_MAIN_LOG = ">>>>>>>>>> JeuController.tirerMain()  lancement de tirage de main";
     private static final String SORTIR_TIRER_MAIN_LOG = "<<<<<<<<<< JeuController.tirerMain()  fin de tirage de main";
-    @Autowired
+
     private JeuServiceInterface jeuService;
 
 
+   public  JeuController(JeuServiceInterface jeuService){
+       this.jeuService=jeuService;
+   }
+
     @GetMapping("/carte")
-    public ResponseEntity<List<Carte>> tirerMain(){
+    public ResponseEntity<CarteJoueur> tirerMain(){
         logger.info(ENTRER_TIRER_MAIN_LOG);
-        List<Carte> mainDecarte  = jeuService.tirerMain();
+
         logger.info(SORTIR_TIRER_MAIN_LOG);
-     return  ResponseEntity.status(HttpStatus.OK).body( mainDecarte);
+     return  ResponseEntity.status(HttpStatus.OK).body( jeuService.tirerMainAvecTrie());
     }
 
 }
